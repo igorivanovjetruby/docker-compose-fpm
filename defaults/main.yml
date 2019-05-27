@@ -1,0 +1,13 @@
+---
+system_user: ubuntu
+compose_project_dir: /home/{{ system_user }}/compose-php7-fpm
+
+db_name: mydatabase
+db_tb_pre: pr_
+db_host: mysql
+db_psw: change-M3
+nginx_port: 80
+php_fpm_port: 9000
+
+# If you want to specify all variables without interactive prompts, can you
+# do so by using: --extra-vars

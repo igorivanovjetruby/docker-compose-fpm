@@ -1,0 +1,50 @@
+---
+- hosts: test
+  vars_files:
+    - defaults/main.yml
+
+  remote_user: "{{ system_user }}"
+  become: yes
+  gather_facts: no
+  serial: 1
+
+  vars_prompt:
+
+    - name: domain
+      prompt: "\n------
+              \n\nSpecify URL"
+      private: no
+      default: "test.jettima.info"
+
+    - name: php_version
+      prompt: "\n------
+              \n\nSpecify Php version you'd like to use"
+      private: no
+      default: "7.2"
+
+    - name: db_name
+      prompt: "\n------
+              \n\nSpecify database name"
+      private: no
+      default: "mydatabase"
+
+    - name: db_tb_pre
+      prompt: "\n------
+              \n\nSpecify table prefix"
+      private: no
+      default: "ph_"
+
+    - name: db_psw
+      prompt: "\n------
+              \n\nSpecify database password"
+      private: yes
+      default: "changeme"
+      confirm: yes
+
+  roles:
+    - role: python
+      tags: python
+    - role: docker
+      tags: docker
+    - role: php-docker
+      tags: php-docker

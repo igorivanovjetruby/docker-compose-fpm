@@ -1,0 +1,41 @@
+version: '2'
+services:
+ nginx:
+    image: nginx:latest
+    ports:
+        - '80:80'
+        - '443:443'
+    volumes:
+        - ./nginx:/etc/nginx/conf.d
+        - ./logs/nginx:/var/log/nginx
+        - ./php:/var/www/html
+    links:
+        - php
+    restart: always
+
+ mysql:
+    image: mysql:5.7
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./db-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD={{ db_psw }}
+      - MYSQL_DATABASE={{ db_name }}
+    restart: always
+
+ php:
+    build:
+     context: .
+    ports:
+      - '{{ php_fpm_port }}:9000'
+    volumes:
+      - ./php:/var/www/html
+    environment:
+      - DB_NAME={{ db_name }}
+      - TABLE_PREFIX={{ db_tb_pre }}
+      - DB_HOST={{ db_host }}
+      - DB_PASSWORD={{ db_psw }}
+    links:
+      - mysql
+    restart: always
