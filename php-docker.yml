@@ -16,12 +16,6 @@
       private: no
       default: "test.jettima.info"
 
-    - name: php_version
-      prompt: "\n------
-              \n\nSpecify Php version you'd like to use"
-      private: no
-      default: "7.2"
-
     - name: db_name
       prompt: "\n------
               \n\nSpecify database name"

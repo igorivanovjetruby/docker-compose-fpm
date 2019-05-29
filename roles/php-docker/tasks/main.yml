@@ -25,6 +25,26 @@
   tags:
     - file_ops
 
+- name: deploy supervisord.conf
+  template:
+    src: supervisord.j2
+    dest: "{{ compose_project_dir }}/supervisord.conf"
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0644
+  tags:
+    - deploy_compose
+
+- name: deploy start.sh
+  template:
+    src: start.j2
+    dest: "{{ compose_project_dir }}/start.sh"
+    owner: "{{ system_user }}"
+    group: "{{ system_user }}"
+    mode: 0644
+  tags:
+    - deploy_compose
+
 - name: deploy Docker Compose project for (php/Mysql/Nginx containers)
   template:
     src: docker-compose.j2
@@ -70,7 +90,6 @@
 - debug:
     msg:
       - "With specified variables, following configuration has been made:"
-      - "Docker image version: php{{ php_version }}-fpm"
       - "URL used for Nginx virtual host: {{ domain }}"
       - "DB_NAME: {{ db_name }}"
       - "TABLE_PREFIX: {{ db_tb_pre }}"
